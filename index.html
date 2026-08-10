@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rosalino Baby Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #fdf2f8;
+    color: #1f2937;
+    text-align: center;
+    padding: 24px;
+  }
+  .card { max-width: 420px; }
+  h1 { font-size: 20px; margin-bottom: 8px; }
+  p { font-size: 15px; color: #4b5563; line-height: 1.5; margin-bottom: 20px; }
+  a.button {
+    display: inline-block;
+    background: #111827;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .instructions {
+    display: none;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #6b7280;
+    text-align: left;
+    background: #fff;
+    padding: 14px 16px;
+    border-radius: 10px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Rosalino Baby Tracker</h1>
+    <p id="status-text">Opening the App Store…</p>
+    <a class="button" id="store-link" href="https://apps.apple.com/ca/app/rosalino-baby-tracker/id6788104019">
+      Open in App Store
+    </a>
+    <div class="instructions" id="in-app-instructions">
+      <strong>Having trouble?</strong><br>
+      Tap the <strong>••• </strong> or <strong>share icon</strong> in the top-right corner and choose <strong>"Open in Safari"</strong> or <strong>"Open in Browser"</strong>, then tap the button above again.
+    </div>
+  </div>
+
+  <script>
+    var APP_STORE_URL = "https://apps.apple.com/ca/app/rosalino-baby-tracker/id6788104019";
+    var ua = navigator.userAgent || navigator.vendor || window.opera;
+
+    // Detect known in-app browsers that commonly block App Store redirects
+    var isInstagram = ua.indexOf("Instagram") > -1;
+    var isFacebook = ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1;
+    var isTikTok = ua.indexOf("BytedanceWebview") > -1 || ua.indexOf("musical_ly") > -1 || ua.indexOf("TikTok") > -1;
+    var isThreads = ua.indexOf("Barcelona") > -1;
+    var isLinkedIn = ua.indexOf("LinkedInApp") > -1;
+    var isSnapchat = ua.indexOf("Snapchat") > -1;
+
+    var isInAppBrowser = isInstagram || isFacebook || isTikTok || isThreads || isLinkedIn || isSnapchat;
+
+    if (isInAppBrowser) {
+      // Auto-redirect often gets silently blocked in these — show manual instructions
+      document.getElementById("status-text").textContent = "Tap below to open the App Store.";
+      document.getElementById("in-app-instructions").style.display = "block";
+      // still attempt it, in case this particular in-app browser allows it
+      window.location.href = APP_STORE_URL;
+    } else {
+      // Normal Safari/Chrome/etc — redirect immediately
+      window.location.href = APP_STORE_URL;
+    }
+  </script>
+</body>
+</html>
