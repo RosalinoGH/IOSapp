@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Rosalino Baby Tracker</title>
+<title>Rosalino: Baby Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   * { box-sizing: border-box; }
@@ -18,67 +18,59 @@
     text-align: center;
     padding: 24px;
   }
-  .card { max-width: 420px; }
-  h1 { font-size: 20px; margin-bottom: 8px; }
-  p { font-size: 15px; color: #4b5563; line-height: 1.5; margin-bottom: 20px; }
+  .card { max-width: 380px; }
+  h1 { font-size: 19px; margin-bottom: 8px; }
+  p { font-size: 15px; color: #4b5563; line-height: 1.55; margin-bottom: 22px; }
   a.button {
     display: inline-block;
     background: #111827;
     color: #fff;
     text-decoration: none;
-    padding: 12px 28px;
+    padding: 14px 32px;
     border-radius: 999px;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
+    width: 100%;
   }
-  .instructions {
+  .steps {
     display: none;
-    margin-top: 20px;
+    margin-top: 22px;
     font-size: 13px;
     color: #6b7280;
     text-align: left;
     background: #fff;
     padding: 14px 16px;
     border-radius: 10px;
+    line-height: 1.6;
   }
+  .steps.show { display: block; }
 </style>
 </head>
 <body>
   <div class="card">
-    <h1>Rosalino Baby Tracker</h1>
-    <p id="status-text">Opening the App Store…</p>
+    <h1>Rosalino: Baby Tracker</h1>
+    <p id="status-text">Tap below to open the App Store.</p>
+
+    <!-- Real, explicit tap — no auto-redirect. This is what actually works inside in-app browsers. -->
     <a class="button" id="store-link" href="https://apps.apple.com/ca/app/rosalino-baby-tracker/id6788104019">
       Open in App Store
     </a>
-    <div class="instructions" id="in-app-instructions">
-      <strong>Having trouble?</strong><br>
-      Tap the <strong>••• </strong> or <strong>share icon</strong> in the top-right corner and choose <strong>"Open in Safari"</strong> or <strong>"Open in Browser"</strong>, then tap the button above again.
+
+    <div class="steps" id="ig-steps">
+      <strong>If nothing happens:</strong><br>
+      Tap the <strong>•••</strong> menu in the top-right corner and choose <strong>“Open in external browser”</strong> (or “Open in Safari”), then tap the button above again.
     </div>
   </div>
 
   <script>
-    var APP_STORE_URL = "https://apps.apple.com/ca/app/rosalino-baby-tracker/id6788104019";
-    var ua = navigator.userAgent || navigator.vendor || window.opera;
+    var ua = navigator.userAgent || "";
+    var isInApp = /(Instagram|FBAN|FBAV|FB_IAB|musical_ly|BytedanceWebview|Line\/|Snapchat)/i.test(ua);
 
-    // Detect known in-app browsers that commonly block App Store redirects
-    var isInstagram = ua.indexOf("Instagram") > -1;
-    var isFacebook = ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1;
-    var isTikTok = ua.indexOf("BytedanceWebview") > -1 || ua.indexOf("musical_ly") > -1 || ua.indexOf("TikTok") > -1;
-    var isThreads = ua.indexOf("Barcelona") > -1;
-    var isLinkedIn = ua.indexOf("LinkedInApp") > -1;
-    var isSnapchat = ua.indexOf("Snapchat") > -1;
-
-    var isInAppBrowser = isInstagram || isFacebook || isTikTok || isThreads || isLinkedIn || isSnapchat;
-
-    if (isInAppBrowser) {
-      // Auto-redirect often gets silently blocked in these — show manual instructions
-      document.getElementById("status-text").textContent = "Tap below to open the App Store.";
-      document.getElementById("in-app-instructions").style.display = "block";
-      // still attempt it, in case this particular in-app browser allows it
-      window.location.href = APP_STORE_URL;
+    if (isInApp) {
+      document.getElementById("ig-steps").classList.add("show");
     } else {
-      // Normal Safari/Chrome/etc — redirect immediately
-      window.location.href = APP_STORE_URL;
+      // Real browser (Safari/Chrome/etc.) — go ahead and auto-redirect, no tap needed
+      window.location.replace("https://apps.apple.com/ca/app/rosalino-baby-tracker/id6788104019");
     }
   </script>
 </body>
