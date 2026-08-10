@@ -76,15 +76,7 @@
   </div>
 
   <script>
-    var ua = navigator.userAgent || "";
-    var isInApp = /(Instagram|FBAN|FBAV|FB_IAB|musical_ly|BytedanceWebview|Line\/|Snapchat)/i.test(ua);
-
-    if (isInApp) {
-      document.getElementById("ig-steps").classList.add("show");
-    } else {
-      // Real browser (Safari/Chrome/etc.) — go ahead and auto-redirect, no tap needed
-      window.location.replace("https://apps.apple.com/ca/app/rosalino-baby-tracker/id6788104019");
-    }
+    // No automatic redirect — user must tap the button
   </script>
 </body>
 </html>
